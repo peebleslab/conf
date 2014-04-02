@@ -3,26 +3,38 @@
 #
 
 # General configuration options
+#
 $www_dir    = '/www'
 $www_user   = 'plab'
 $www_group  = 'plab'
 
 # Create the www directory, which will contain all site content
+#
+file { $www_dir:
+    ensure  => directory,
+    owner   => $www_user,
+    group   => 'root',
+    mode    => 2575,
 
-# TODO create the folder
-# TODO set the owner to www, with chmod u=rx
-# TODO set the group to root, with chmod u=rwx
-# TODO set chmod o=rx
-# TODO set the sticky bit so subdirs get the same perms by default
+    require => User[$www_user]
+}
 
 # Create the www user, who will be responsbile for serving all site content.
 # For security reasons, this user will have restricted access to the machine
 # and the sites it runs.
+# 
+user { $www_user:
+    ensure  => present,
+    gid     => $www_group,
+    home    => $www_dir,
+    shell   => '/bin/bash',
 
-# TODO create the user
-# TODO add to www group
-# TODO remove all groups except www
-# TODO chroot the user to the www dir
+    require => Group[$www_group]
+}
+
+group { $www_group:
+    ensure => present
+}
 
 # Install required packages
 
