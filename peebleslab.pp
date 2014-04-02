@@ -66,7 +66,7 @@ file { [
 
 # Populate the sites
 #
-# TODO clone each site from git
+# TODO clone each site from git -- need vcsrepo module
 # TODO run each site's setup script (which creates a venv and installs things)
 # TODO download secrets.py (which has API secrets / password hashes / etc)
 
