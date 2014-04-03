@@ -49,7 +49,6 @@ package { 'varnish':
 # Create the www site hierarchy
 #
 file { [ 
-    "$www_dir/dev-data", "$www_dir/prod-data",
     "$www_dir/dev-main", "$www_dir/prod-main",
     "$www_dir/dev-store", "$www_dir/prod-store",
     "$www_dir/dev-admin", "$www_dir/prod-admin",
