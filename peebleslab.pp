@@ -80,8 +80,9 @@ vcsrepo { 'dev-site':
 }
 
 exec { 'serve-dev-site':
-    command   => "$www_dir/dev-site/serve",
-    subscribe => Vcsrepo['dev-site']
+    command     => "$www_dir/dev-site/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['dev-site']
 }
 
 vcsrepo { 'prod-site':
@@ -99,8 +100,9 @@ vcsrepo { 'prod-site':
 }
 
 exec { 'serve-prod-site':
-    command   => "$www_dir/prod-site/serve",
-    subscribe => Vcsrepo['prod-site']
+    command     => "$www_dir/prod-site/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['prod-site']
 }
 
 vcsrepo { 'dev-store':
@@ -118,8 +120,9 @@ vcsrepo { 'dev-store':
 }
 
 exec { 'serve-dev-store':
-    command   => "$www_dir/dev-store/serve",
-    subscribe => Vcsrepo['dev-store']
+    command     => "$www_dir/dev-store/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['dev-store']
 }
 
 vcsrepo { 'prod-store':
@@ -137,8 +140,9 @@ vcsrepo { 'prod-store':
 }
 
 exec { 'serve-prod-store':
-    command   => "$www_dir/prod-store/serve",
-    subscribe => Vcsrepo['prod-store']
+    command     => "$www_dir/prod-store/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['prod-store']
 }
 
 vcsrepo { 'dev-admin':
@@ -156,8 +160,9 @@ vcsrepo { 'dev-admin':
 }
 
 exec { 'serve-dev-admin':
-    command   => "$www_dir/dev-admin/serve",
-    subscribe => Vcsrepo['dev-admin']
+    command     => "$www_dir/dev-admin/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['dev-admin']
 }
 
 vcsrepo { 'prod-admin':
@@ -175,8 +180,9 @@ vcsrepo { 'prod-admin':
 }
 
 exec { 'serve-prod-admin':
-    command   => "$www_dir/prod-admin/serve",
-    subscribe => Vcsrepo['prod-admin']
+    command     => "$www_dir/prod-admin/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['prod-admin']
 }
 
 vcsrepo { 'dev-vault':
@@ -194,8 +200,9 @@ vcsrepo { 'dev-vault':
 }
 
 exec { 'serve-dev-vault':
-    command   => "$www_dir/dev-vault/serve",
-    subscribe => Vcsrepo['dev-vault']
+    command     => "$www_dir/dev-vault/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['dev-vault']
 }
 
 vcsrepo { 'prod-vault':
@@ -213,8 +220,9 @@ vcsrepo { 'prod-vault':
 }
 
 exec { 'serve-prod-vault':
-    command   => "$www_dir/prod-vault/serve",
-    subscribe => Vcsrepo['prod-vault']
+    command     => "$www_dir/prod-vault/serve",
+    refreshonly => true,
+    subscribe   => Vcsrepo['prod-vault']
 }
 
 # Configure the system
