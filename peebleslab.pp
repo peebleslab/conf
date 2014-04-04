@@ -48,8 +48,8 @@ package { 'varnish':
 
 # Create the www site hierarchy
 #
-file { [ 
-    "$www_dir/dev-main", "$www_dir/prod-main",
+file { [ "$www_dir",
+    "$www_dir/dev-site", "$www_dir/prod-site",
     "$www_dir/dev-store", "$www_dir/prod-store",
     "$www_dir/dev-admin", "$www_dir/prod-admin",
     "$www_dir/dev-vault", "$www_dir/prod-vault"
@@ -65,16 +65,162 @@ file { [
 
 # Populate the sites
 #
-# TODO clone each site from git -- need vcsrepo module
-#      - probably need to add a readme step for this
-#
-# TODO run each site's setup script (which creates a venv and installs things)
-#      - use exec
+vcsrepo { 'dev-site':
+    path     => "$www_dir/dev-site",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/site.git',
+    revision => 'master',
+
+    require  => File["$www_dir/dev-site"]
+}
+
+exec { 'serve-dev-site':
+    command   => "$www_dir/dev-site/serve",
+    subscribe => Vcsrepo['dev-site']
+}
+
+vcsrepo { 'prod-site':
+    path     => "$www_dir/prod-site",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/site.git',
+    revision => 'master',
+
+    require  => File["$www_dir/prod-site"]
+}
+
+exec { 'serve-prod-site':
+    command   => "$www_dir/prod-site/serve",
+    subscribe => Vcsrepo['prod-site']
+}
+
+vcsrepo { 'dev-store':
+    path     => "$www_dir/dev-store",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/store.git',
+    revision => 'master',
+
+    require  => File["$www_dir/dev-store"]
+}
+
+exec { 'serve-dev-store':
+    command   => "$www_dir/dev-store/serve",
+    subscribe => Vcsrepo['dev-store']
+}
+
+vcsrepo { 'prod-store':
+    path     => "$www_dir/prod-store",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/store.git',
+    revision => 'master',
+
+    require  => File["$www_dir/prod-store"]
+}
+
+exec { 'serve-prod-store':
+    command   => "$www_dir/prod-store/serve",
+    subscribe => Vcsrepo['prod-store']
+}
+
+vcsrepo { 'dev-admin':
+    path     => "$www_dir/dev-admin",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/admin.git',
+    revision => 'master',
+
+    require  => File["$www_dir/dev-admin"]
+}
+
+exec { 'serve-dev-admin':
+    command   => "$www_dir/dev-admin/serve",
+    subscribe => Vcsrepo['dev-admin']
+}
+
+vcsrepo { 'prod-admin':
+    path     => "$www_dir/prod-admin",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/admin.git',
+    revision => 'master',
+
+    require  => File["$www_dir/prod-admin"]
+}
+
+exec { 'serve-prod-admin':
+    command   => "$www_dir/prod-admin/serve",
+    subscribe => Vcsrepo['prod-admin']
+}
+
+vcsrepo { 'dev-vault':
+    path     => "$www_dir/dev-vault",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/vault.git',
+    revision => 'master',
+
+    require  => File["$www_dir/dev-vault"]
+}
+
+exec { 'serve-dev-vault':
+    command   => "$www_dir/dev-vault/serve",
+    subscribe => Vcsrepo['dev-vault']
+}
+
+vcsrepo { 'prod-vault':
+    path     => "$www_dir/prod-vault",
+    ensure   => latest,
+
+    owner    => $www_user,
+    group    => $www_group,
+
+    provider => git,
+    source   => 'https://github.com/peebleslab/vault.git',
+    revision => 'master',
+
+    require  => File["$www_dir/prod-vault"]
+}
+
+exec { 'serve-prod-vault':
+    command   => "$www_dir/prod-vault/serve",
+    subscribe => Vcsrepo['prod-vault']
+}
 
 # Configure the system
 #
-# TODO download and install the varnish configuration
-# TODO download and install init.d scripts for each www site
+# TODO copy varnish configuration out of this repo
+# TODO copy init.d scripts out of this repo
 
 # Bring up the sites
 #
