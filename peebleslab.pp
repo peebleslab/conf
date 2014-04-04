@@ -70,7 +70,7 @@ vcsrepo { 'dev-site':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/site.git',
@@ -89,7 +89,7 @@ vcsrepo { 'prod-site':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/site.git',
@@ -108,7 +108,7 @@ vcsrepo { 'dev-store':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/store.git',
@@ -127,7 +127,7 @@ vcsrepo { 'prod-store':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/store.git',
@@ -146,7 +146,7 @@ vcsrepo { 'dev-admin':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/admin.git',
@@ -165,7 +165,7 @@ vcsrepo { 'prod-admin':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/admin.git',
@@ -184,7 +184,7 @@ vcsrepo { 'dev-vault':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/vault.git',
@@ -203,7 +203,7 @@ vcsrepo { 'prod-vault':
     ensure   => latest,
 
     owner    => $www_user,
-    group    => $www_group,
+    group    => 'root',
 
     provider => git,
     source   => 'https://github.com/peebleslab/vault.git',
@@ -219,7 +219,21 @@ exec { 'serve-prod-vault':
 
 # Configure the system
 #
-# TODO copy varnish configuration out of this repo
+#file { "$www_dir/peebleslab.vcl":
+#
+#    ensure  => present,
+#    source  => "peebleslab.vcl",
+#
+#    owner   => $www_user,
+#    group   => 'root',
+#    mode    => 0575,
+#
+#    require => File[$www_dir]
+#}
+
+# TODO we can't use relative URLs above. Try linking to raw file on github
+
+# TODO read about varnish and write the config file :)
 # TODO copy init.d scripts out of this repo
 
 # Bring up the sites
