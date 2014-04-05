@@ -46,6 +46,10 @@ package { 'varnish':
     ensure => present
 }
 
+package { 'wget':
+    ensure => present
+}
+
 # Create the www site hierarchy
 #
 file { [ "$www_dir",
@@ -227,22 +231,32 @@ exec { 'serve-prod-vault':
 
 # Configure the system
 #
-#file { "$www_dir/peebleslab.vcl":
-#
-#    ensure  => present,
-#    source  => "peebleslab.vcl",
-#
-#    owner   => $www_user,
-#    group   => 'root',
-#    mode    => 0575,
-#
-#    require => File[$www_dir]
-#}
+define download($url, $to=$title, $owner, $group, $mode=0644) {
+    exec { "download_${to}":
+        command => "/usr/bin/wget -q ${url} -O ${to}",
+        creates => $to
+    }
 
-# TODO we can't use relative URLs above. Try linking to raw file on github
+    file { "${to}":
+        owner   => $owner,
+        group   => $group,
+        mode    => $mode,
+        require => Exec["download_${to}"]
+    }
+}
 
-# TODO read about varnish and write the config file :)
-# TODO copy init.d scripts out of this repo
+download { "$www_dir/peebleslab.vcl":
+    url => "https://raw.githubusercontent.com/peebleslab/conf/master/peebleslab.vcl",
+
+    owner   => $www_user,
+    group   => 'root',
+    mode    => 0644,
+
+    require => File[$www_dir]
+}
+
+# TODO read about init scripts and write them :)
+# TODO download init scripts here using our download command
 
 # Bring up the sites
 #
