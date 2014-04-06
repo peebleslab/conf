@@ -246,7 +246,7 @@ define download($url, $to=$title, $owner, $group, $mode=0644) {
 }
 
 download { "$www_dir/peebleslab.vcl":
-    url => "https://raw.githubusercontent.com/peebleslab/conf/master/peebleslab.vcl",
+    url => "https://raw.githubusercontent.com/peebleslab/conf/master/vcl/peebleslab.vcl",
 
     owner   => $www_user,
     group   => 'root',
